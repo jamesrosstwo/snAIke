@@ -7,18 +7,6 @@ from game_params import GameParams
 pygame.init()
 
 
-#
-# def create_bug():
-#     global BUG
-#     BUG = ()
-#     while (list(BUG) in WALL) or (list(BUG) in SNAKE.elements) or (not BUG):
-#         BUG = (random.randrange(40, RES[0] - 40, 20),
-#                (random.randrange(40, RES[1] - 40, 20)))
-#
-#     pygame.draw.circle(SCREEN, (255, 0, 0), BUG, RADIUS)
-#     pygame.display.flip()
-
-
 def exit_dead():
     # print("Bugs eaten:\t%d" % (len(SNAKE.elements) - START_LENGTH + 1))
     # print("Score:\t\t%d" % ((len(SNAKE.elements) - START_LENGTH + 1) * DIFFICULTY))

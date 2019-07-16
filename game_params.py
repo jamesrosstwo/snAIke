@@ -2,7 +2,7 @@
 class GameParams:
     SCORE = 0
     FRAME_RATE = 60
-    RES = (800, 600)
+    RES = (260, 60)
     BLOCK_SIZE = 20
     MAP_SIZE = [RES[0] // BLOCK_SIZE, RES[1] // BLOCK_SIZE]
     MAP = []
@@ -13,4 +13,5 @@ class GameParams:
         "bg": [0, 0, 0],
         "fruit": [255, 0, 0]
     }
-    # "#": wall, "@": player head, "%": player body, ".": empty space, "*": fruit
+    # "#": wall, "@": player head, ".": empty space, "*": fruit
+

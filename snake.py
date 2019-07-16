@@ -5,7 +5,6 @@ from fruit import Fruit
 class Snake:
 
     def __init__(self, x, y, screen):
-        self.fruit = Fruit(screen)
         self.screen = screen
         self.head_pos = [x, y]
         self.dir = [1, 0]
@@ -13,6 +12,8 @@ class Snake:
         self.segments = []
         for i in range(self.length):
             self.segments.append([x - i, y])
+            GameParams.MAP[x - i][y] = "@"
+        self.fruit = Fruit(screen)
 
     def move(self, x, y):
         b = GameParams.BLOCK_SIZE
@@ -29,9 +30,11 @@ class Snake:
         else:  # increase length when fruit is eaten
             last = self.segments.pop()
             self.screen.fill(GameParams.COLS["bg"], (last[0] * b, last[1] * b, b, b))
+            GameParams.MAP[last[0]][last[1]] = "."
 
         self.segments.insert(0, self.head_pos)
         self.screen.fill(GameParams.COLS["snake"], (self.head_pos[0] * b, self.head_pos[1] * b, b, b))
+        GameParams.MAP[self.head_pos[0]][self.head_pos[1]] = "@"
         GameParams.SCORE += 1
 
     def draw(self, screen):
@@ -41,9 +44,6 @@ class Snake:
 
     def check_pos(self, new_pos):
         current_block = GameParams.MAP[new_pos[0]][new_pos[1]]
-        if current_block == "#":
+        if current_block == "#" or current_block == "@":
             print("Death")
-        if self.head_pos in self.segments[1:]:
-            print("Death")
-
         return current_block

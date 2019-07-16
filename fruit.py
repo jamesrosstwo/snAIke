@@ -17,6 +17,10 @@ class Fruit:
         h = GameParams.MAP_SIZE[1]
         _x = random.randrange(1, w-1)
         _y = random.randrange(1, h-1)
+        while GameParams.MAP[_x][_y] != ".":
+            _x = random.randrange(1, w - 1)
+            _y = random.randrange(1, h - 1)
+        print(_x, _y)
         self.pos = [_x, _y]
 
     def draw(self):
