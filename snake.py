@@ -3,7 +3,7 @@ from fruit import Fruit
 
 
 class Snake:
-    def __init__(self, x, y, screen):
+    def __init__(self, x, y, screen, network):
         self.screen = screen
         self.head_pos = [x, y]
         self.dir = [1, 0]
@@ -14,7 +14,7 @@ class Snake:
             GameParams.MAP[x - i][y] = "@"
         self.fruit = Fruit(screen)
 
-# Control
+    # Control
 
     def move(self, x, y):
         b = GameParams.BLOCK_SIZE
@@ -46,9 +46,14 @@ class Snake:
     def check_pos(self, new_pos):
         current_block = GameParams.MAP[new_pos[0]][new_pos[1]]
         if current_block == "#" or current_block == "@":
-            print("Death")
+            self.die()
         return current_block
 
-# Learning
+    def die(self):
+        pass
 
+    # Learning
 
+    def calculate_move(self):
+        # pass board, make head different character
+        pass
