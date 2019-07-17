@@ -30,9 +30,10 @@ def flatten(arr):
 def generate_network_input():
     out = []
     new_map = copy.deepcopy(GameParams.MAP)
-    anchor_pos = GameParams.SNAKE_POS
-    for x_offset in range(anchor_pos[0] - 1, anchor_pos[0] + 2):
-        for y_offset in range(anchor_pos[1] - 1, anchor_pos[1] + 2):
+    p = GameParams.SNAKE_POS
+    r = GameParams.SNAKE_VISION_RADIUS
+    for x_offset in range(p[0] - r, p[0] + r + 1):
+        for y_offset in range(p[1] - r, p[1] + r + 1):
             if x_offset != 0 or y_offset != 0:  # dont check current tile
                 out.extend(one_hot_encode_tile(GameParams.MAP[x_offset][y_offset]))
 
@@ -41,3 +42,7 @@ def generate_network_input():
     encoded_tiles = flatten(flatten(one_hot_encode_tiles(new_map)))
     out.extend(encoded_tiles)
     return out
+
+
+def calculate_input_size():
+    return (((2 * GameParams.SNAKE_VISION_RADIUS) + 1) ** 2) * len(GameParams.TILE_MAP)

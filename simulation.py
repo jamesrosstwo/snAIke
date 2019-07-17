@@ -16,6 +16,7 @@ class Simulation:
         self.snake = Snake(GameParams.MAP_SIZE[0]//2, GameParams.MAP_SIZE[1]//2)
 
     def create_generation_from_prev(self, previous):
+
         return Generation(self.num_individuals, previous, previous.index + 1)
 
     def get_current_individual(self):

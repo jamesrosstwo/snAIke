@@ -1,10 +1,10 @@
 from network import Network
-from game_params import GameParams
+from map_parser import calculate_input_size
 
 
 class Generation:
     def __init__(self, num_individuals, parent_generation, idx, is_random=False):
-        input_size = GameParams.MAP_SIZE[0] * GameParams.MAP_SIZE[1]
+        input_size = calculate_input_size()
         hidden_layer_size = input_size // 1.5
         self.layer_template = [input_size, hidden_layer_size, 4]
         self.individuals = []
