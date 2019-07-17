@@ -7,7 +7,7 @@ class Layer:
         if is_random:
             self.neurons = [Neuron(None, is_random=True) for i in range(num_neurons)]
         else:
-            self.neurons = [Neuron(parent_layer.nodes[i]) for i in range(num_neurons)]
+            self.neurons = [Neuron(parent_layer.neurons[i]) for i in range(num_neurons)]
 
     def connect_to(self, layer):
         for src_neuron in self.neurons:

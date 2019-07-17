@@ -12,7 +12,7 @@ class Neuron:
             for i in range(len(parent_node.connections)):
                 p_connection = parent_node.connections[i]
                 self.connections.append(Connection(p_connection.source, p_connection.dest, p_connection, False))
-            self.activation = parent_node.value
+            self.activation = parent_node.activation
 
     def connect_to(self, target_node):
         # random weight. connect_to is only called on first gen
