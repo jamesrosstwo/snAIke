@@ -11,6 +11,7 @@ idna==2.6
 ipaddress==1.0.22
 macholib==1.5.1
 modulegraph==0.10.4
+numpy==1.16.4
 py2app==0.7.3
 pygame==1.9.6
 pyobjc-core==5.2
