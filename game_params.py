@@ -1,10 +1,12 @@
 class GameParams:
     SCORE = 0
-    FRAME_RATE = 60
+    FRAME_RATE = 144
     RES = (400, 400)
     BLOCK_SIZE = 20
+    MUTATION_RATE = 0
     SCREEN = None
     SNAKE_POS = [0, 0]
+    FRUIT_POS = [0, 0]
     MAP_SIZE = [RES[0] // BLOCK_SIZE, RES[1] // BLOCK_SIZE]
     MAP = []
     COLS = {

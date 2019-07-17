@@ -1,6 +1,6 @@
 # SnAIke
 
-A demonstration of machine learning where the bot learns to play snake
+A demonstration of a genetic algorithm where the computer learns to play snake.
 
 ## Requirements
 

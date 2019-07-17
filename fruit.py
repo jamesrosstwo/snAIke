@@ -28,6 +28,7 @@ class Fruit:
             GameParams.COLS["fruit"],
             (self.pos[0] * b, self.pos[1] * b, b, b)
         )
+        GameParams.FRUIT_POS = self.pos
 
     def eat(self):
         GameParams.SCORE += 5
@@ -40,4 +41,3 @@ class Fruit:
         self.randomize_pos()
         GameParams.MAP[self.pos[0]][self.pos[1]] = "*"
         self.draw()
-

@@ -1,6 +1,5 @@
 from fruit import Fruit
 from game_params import GameParams
-import numpy as np
 
 
 class Snake:
@@ -89,4 +88,3 @@ class Snake:
         GameParams.MAP[x][y] = "&"
         self.draw()
         self.dir = [1, 0]
-        print("died")

@@ -21,7 +21,6 @@ class Generation:
         pass
 
     def next_individual(self):
-        print(self.current_individual, self.num_individuals)
         if self.current_individual == self.num_individuals - 1:
             return False
         self.current_individual += 1

@@ -1,7 +1,6 @@
 from layer import Layer
 from map_parser import generate_network_input
-import numpy as np
-from game_params import GameParams
+from math_operations import normalize_arr
 
 
 class Network:
@@ -27,13 +26,4 @@ class Network:
         return self.layers[-1].get_activations()
 
     def calculate_output_from_map(self):
-        return self.calculate_output(generate_network_input())
-
-
-if __name__ == "__main__":
-    layer_temp = [10, 5, 4]
-    n = Network(layer_temp, None, is_random=True)
-    network_in = np.random.randint(2, size=10)
-    print(n.calculate_output(network_in))
-    network_in = np.random.randint(2, size=10)
-    print(n.calculate_output(network_in))
+        return normalize_arr(self.calculate_output(generate_network_input()))
