@@ -3,11 +3,12 @@ from neuron import Neuron
 
 class Layer:
     # todo: add bias
-    def __init__(self, num_neurons, parent_layer, is_random=False):
+    def __init__(self, network, num_neurons, parent_layer, is_random=False):
+        self.network = network
         if is_random:
-            self.neurons = [Neuron(None, is_random=True) for i in range(num_neurons)]
+            self.neurons = [Neuron(self, i, None, is_random=True) for i in range(num_neurons)]
         else:
-            self.neurons = [Neuron(parent_layer.neurons[i]) for i in range(num_neurons)]
+            self.neurons = [Neuron(self, i, parent_layer.neurons[i]) for i in range(num_neurons)]
 
     def connect_to(self, layer):
         for src_neuron in self.neurons:

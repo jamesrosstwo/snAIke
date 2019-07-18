@@ -1,9 +1,10 @@
 class GameParams:
-    SCORE = 0
-    FRAME_RATE = 999
-    RES = (400, 400)
-    BLOCK_SIZE = 20     
+    FRAME_RATE = 1000
+    RES = (420, 420)
+    BLOCK_SIZE = 20
     MUTATION_RATE = 0
+    MUTATION_CHANCE = 0
+    PERSISTENT_INDIVIDUALS_PER_GEN = 4
     SCREEN = None
     SNAKE_VISION_RADIUS = 1
     SNAKE_POS = [0, 0]

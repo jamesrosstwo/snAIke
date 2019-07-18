@@ -30,8 +30,7 @@ class Fruit:
         )
         GameParams.FRUIT_POS = self.pos
 
-    def eat(self):
-        GameParams.SCORE += 5
+    def respawn(self):
         b = GameParams.BLOCK_SIZE
         self.screen.fill(
             GameParams.COLS["bg"],

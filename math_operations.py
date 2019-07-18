@@ -11,5 +11,7 @@ def normalize_arr(arr):  # clamp between -1, 1
         if abs(i) > highest:
             highest = i
     for i in range(len(out)):
+        if highest == 0:
+            return out
         out[i] /= highest
     return out
