@@ -6,7 +6,7 @@ from snake import Snake
 
 
 class Simulation:
-    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.3, mutation_chance=0.12):
+    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.5, mutation_chance=0.05):
         GameParams.MUTATION_RATE = mutation_rate
         GameParams.MUTATION_CHANCE = mutation_chance
         self.num_generations = num_generations
@@ -37,6 +37,7 @@ class Simulation:
             self.next_generation()
 
     def next_generation(self):
+        self.snake.lifespan += 4
         print("----------------")
         print("Generation finished", self.generation.index + 1)
         print("----------------")

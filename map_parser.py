@@ -36,11 +36,12 @@ def generate_network_input():
             if x_offset != p[0] or y_offset != p[1]:  # dont check current tile
                 # out.append(GameParams.MAP[x_offset][y_offset] == "#")
                 out.extend(one_hot_encode_tile(GameParams.MAP[x_offset][y_offset]))
-    out.extend(calculate_fruit_activations())
+    # out.extend(calculate_fruit_activations())
     return out
 
 
 def calculate_input_size():
     # Size of the square multiplied by the number of tiled (because of one hot), - 5 because of no center tile
     # +4 because of fruit
-    return (((2 * GameParams.SNAKE_VISION_RADIUS) + 1) ** 2) * len(GameParams.TILE_MAP) + 4 - len(GameParams.TILE_MAP)
+    return (((2 * GameParams.SNAKE_VISION_RADIUS) + 1) ** 2) * len(GameParams.TILE_MAP) - len(GameParams.TILE_MAP) # + 4
+    # return 4

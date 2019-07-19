@@ -9,7 +9,7 @@ class Generation:
     def __init__(self, num_individuals, parent_generation, idx, is_random=False):
         input_size = calculate_input_size()
         hidden_layer_size = input_size // 1.5
-        self.layer_template = [input_size, hidden_layer_size, 4]
+        self.layer_template = [input_size, 4]
         self.previous_generation = parent_generation
         self.individuals = []
         self.index = idx

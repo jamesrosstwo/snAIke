@@ -1,18 +1,18 @@
-import math
-
 from fruit import Fruit
 from game_params import GameParams
 
 
 class Snake:
-    def __init__(self, x, y, lifespan=50):
+    def __init__(self, x, y, lifespan=25):
         self.lifespan = lifespan
         self.life = self.lifespan
         self.is_dead = False
         self.head_pos = [x, y]
+        self.last_dist = 0
+        self.dist = 0
         GameParams.SNAKE_POS = self.head_pos
         self.dir = [1, 0]
-        self.starting_length = 2
+        self.starting_length = 5
         self.length = self.starting_length
         self.segments = []
         for i in range(self.length):
@@ -26,25 +26,31 @@ class Snake:
     # Control
 
     def move(self, x, y):
-        old_dist = self.dist_from_fruit()
         self.life -= 1
-        if self.life == 0:
+        b = GameParams.BLOCK_SIZE
+
+        if self.life <= 0:
             self.die()
             return
-        b = GameParams.BLOCK_SIZE
-        if (self.dir[0] == x * -1 and x != 0) or (self.dir[1] == y * -1 and y != 0):
-            self.life -= 5
 
-        if [x, y] != self.dir:
-            self.score += 0.25
+        if (self.dir[0] == x * -1 and x != 0) or (self.dir[1] == y * -1 and y != 0):
+            self.die()
+            return
+
+        # if [x, y] != self.dir:
+        #     self.score += 0.1
         self.dir = [x, y]
         self.head_pos = [x + y for x, y in zip(self.head_pos, self.dir)]
 
-        if self.check_pos(self.head_pos) == "*":
+        current_block = self.check_pos(self.head_pos)
+        if current_block == "*":
             self.fruit.respawn()
             self.length += 1
-            self.score += 22
-            self.life += 50
+            # self.score += 22
+            # self.life += 50
+        elif current_block == "@" or current_block == "#":
+            self.die()
+            return
 
         else:  # increase length when fruit is eaten
             last = self.segments.pop()
@@ -56,10 +62,11 @@ class Snake:
         GameParams.MAP[self.segments[1][0]][self.segments[1][1]] = "@"
         GameParams.MAP[self.head_pos[0]][self.head_pos[1]] = "&"
         GameParams.SNAKE_POS = self.head_pos
-        new_dist = self.dist_from_fruit()
-        # if new_dist < old_dist:
-        #     self.score += old_dist - new_dist
+        self.last_dist = self.dist
+        self.dist = self.dist_from_fruit()
         self.score += 1
+        # if self.dist <= self.last_dist:
+        #     self.score += 1
 
     def move_dir(self, direction):
         if direction == 0:
@@ -77,21 +84,21 @@ class Snake:
             GameParams.SCREEN.fill(GameParams.COLS["snake"], (segment[0] * b, segment[1] * b, b, b))
 
     def check_pos(self, new_pos):
-        current_block = GameParams.MAP[new_pos[0]][new_pos[1]]
-        if current_block == "#" or current_block == "@":
-            self.die()
-        return current_block
+        return GameParams.MAP[new_pos[0]][new_pos[1]]
 
     def dist_from_fruit(self):
-        offset = [b - a for a, b in zip(self.head_pos, self.fruit.pos)]
-        return math.sqrt(offset[0] ** 2 + offset[1] ** 2)
+        offset = [self.fruit.pos[0] - self.head_pos[0], self.fruit.pos[1] - self.head_pos[1]]
+
+        d = abs(offset[0]) + abs(offset[1])
+        # print(self.fruit.pos, self.head_pos, offset, d)
+        return d
 
     def die(self):
         b = GameParams.BLOCK_SIZE
         x = GameParams.MAP_SIZE[0] // 2
         y = GameParams.MAP_SIZE[1] // 2
 
-        # self.score -= self.dist_from_fruit() / 8
+        # self.score -= self.dist_from_fruit()
 
         self.is_dead = True
 

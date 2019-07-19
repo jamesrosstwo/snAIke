@@ -19,10 +19,11 @@ def exit_dead():
 
 def generate_map():
     layout = []
+    r = GameParams.SNAKE_VISION_RADIUS
     for x in range(GameParams.MAP_SIZE[0]):
         layout.append([])
         for y in range(GameParams.MAP_SIZE[1]):
-            if x == 0 or x == GameParams.MAP_SIZE[0] - 1 or y == 0 or y == GameParams.MAP_SIZE[1] - 1:
+            if x < r or (GameParams.MAP_SIZE[0] - 1 - x) < r or y < r or (GameParams.MAP_SIZE[0] - 1 - y) < r:
                 layout[x].append("#")
             else:
                 layout[x].append(".")
@@ -41,6 +42,7 @@ def render_map():
 
 def game_loop():
     render_map()
+    # SNAKE = Snake(GameParams.MAP_SIZE[0]//2, GameParams.MAP_SIZE[1]//2)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -57,7 +59,7 @@ def game_loop():
             #         SNAKE.move(1, 0)
         SIMULATION.run_step()
         pygame.display.flip()
-        pygame.time.delay(1000 // GameParams.FRAME_RATE)
+        pygame.time.delay(int(1000 / GameParams.FRAME_RATE))
 
 
 if __name__ == "__main__":
