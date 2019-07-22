@@ -1,22 +1,18 @@
 import math
 
 from network import Network
-from map_parser import calculate_input_size
 from game_params import GameParams
 
 
 class Generation:
     def __init__(self, num_individuals, parent_generation, idx, is_random=False):
-        input_size = calculate_input_size()
-        hidden_layer_size = input_size // 1.5
-        self.layer_template = [input_size, 4]
         self.previous_generation = parent_generation
         self.individuals = []
         self.index = idx
         self.num_individuals = num_individuals
         if is_random:
             for i in range(num_individuals):
-                self.individuals.append(Network(self, self.layer_template, None, i, is_random=True))
+                self.individuals.append(Network(self, GameParams.NETWORK_TEMPLATE, None, i, is_random=True))
         else:
             self.generate_individuals_from_prev()
         self.current_individual = 0
@@ -41,7 +37,7 @@ class Generation:
             idx = math.floor((i/self.num_individuals)*size)
             if idx >= size:
                 idx = size
-            self.individuals.append(Network(self, self.layer_template, persistent[idx], i))
+            self.individuals.append(Network(self, GameParams.NETWORK_TEMPLATE, persistent[idx], i))
 
 
 def get_fitness(individual):

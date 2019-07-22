@@ -3,10 +3,14 @@ import numpy as np
 from generation import Generation
 from game_params import GameParams
 from snake import Snake
+from map_parser import calculate_input_size
 
 
 class Simulation:
-    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.5, mutation_chance=0.05):
+    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.3, mutation_chance=0.05):
+        input_size = calculate_input_size()
+        hidden_layer_size = input_size // 1.5
+        GameParams.NETWORK_TEMPLATE = [input_size, hidden_layer_size, 3]
         GameParams.MUTATION_RATE = mutation_rate
         GameParams.MUTATION_CHANCE = mutation_chance
         self.num_generations = num_generations
@@ -22,7 +26,7 @@ class Simulation:
 
     def run_step(self):
         next_move = np.asarray(self.get_current_individual().calculate_output_from_map())
-        self.snake.move_dir(next_move.argmax())
+        self.snake.move_turn(next_move.argmax() - 1)
         if self.snake.is_dead:
             print("snake", self.get_current_individual().index, "died, fitness of:", self.snake.score)
             self.get_current_individual().fitness = self.snake.score
@@ -37,7 +41,6 @@ class Simulation:
             self.next_generation()
 
     def next_generation(self):
-        self.snake.lifespan += 4
         print("----------------")
         print("Generation finished", self.generation.index + 1)
         print("----------------")

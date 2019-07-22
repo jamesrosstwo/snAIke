@@ -21,6 +21,7 @@ class Fruit:
             _x = random.randrange(1, w - 1)
             _y = random.randrange(1, h - 1)
         self.pos = [_x, _y]
+        print(_x, _y, "fruit")
 
     def draw(self):
         b = GameParams.BLOCK_SIZE

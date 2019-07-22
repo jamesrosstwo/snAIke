@@ -1,13 +1,17 @@
 class GameParams:
     FRAME_RATE = 1000
-    RES = (310, 310)
+    RES = (370, 370)
     BLOCK_SIZE = 10
+    NETWORK_TEMPLATE = []
     MUTATION_RATE = 0
     MUTATION_CHANCE = 0
     PERSISTENT_INDIVIDUALS_PER_GEN = 4
     SCREEN = None
-    SNAKE_VISION_RADIUS = 3
+    SNAKE_VISION_RADIUS = 1
     SNAKE_POS = [0, 0]
+    SNAKE_DIR = []
+    SNAKE_DIR_IDX = 0
+    DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]]
     FRUIT_POS = [0, 0]
     MAP_SIZE = [RES[0] // BLOCK_SIZE, RES[1] // BLOCK_SIZE]
     MAP = []

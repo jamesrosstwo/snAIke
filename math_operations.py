@@ -1,3 +1,6 @@
+import math
+
+
 def relu(val):
     if val < 0:
         return 0
@@ -15,3 +18,19 @@ def normalize_arr(arr):  # clamp between -1, 1
             return out
         out[i] /= highest
     return out
+
+
+def magnitude(vector):
+    return math.sqrt(sum(i * i for i in vector))
+
+
+def square_magnitude(vector):
+    return sum(i * i for i in vector)
+
+
+def point_offset(point_a, point_b):
+    return [b - a for a, b in zip(point_a, point_b)]
+
+
+def point_distance(point_a, point_b):
+    return magnitude(point_offset(point_a, point_b))

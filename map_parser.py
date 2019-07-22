@@ -1,12 +1,30 @@
 from itertools import chain
-import copy
 from game_params import GameParams
 from math_operations import *
 
 
-def calculate_fruit_activations():  # 4 offsets (RULD), normalized to a magnitude of 1.
-    offsets = normalize_arr([b - a for a, b in zip(GameParams.SNAKE_POS, GameParams.FRUIT_POS)])
-    return [relu(offsets[0]), relu(offsets[1]), relu(-offsets[0]), relu(-offsets[1])]
+def calculate_fruit_activations():  # angle to fruit from snake direction
+    origin = [0, 0]
+    fruit_offset = point_offset(GameParams.SNAKE_POS, GameParams.FRUIT_POS)
+    dir_offset = GameParams.SNAKE_DIR
+
+    a = magnitude(dir_offset)
+    b = magnitude(fruit_offset)
+    c = point_distance(fruit_offset, dir_offset)
+    if a == 0 or b == 0:
+        return [0]
+    angle = math.acos((a * a + b * b - c * c) / (2 * a * b))
+
+    d = GameParams.SNAKE_DIR_IDX
+    left_dist = square_magnitude(point_offset(GameParams.DIRS[(d - 1) % 4], fruit_offset))
+    right_dist = square_magnitude(point_offset(GameParams.DIRS[(d + 1) % 4], fruit_offset))
+    if left_dist < right_dist:
+        angle *= -1
+    return [angle]
+
+
+# offsets = normalize_arr([b - a for a, b in zip(GameParams.SNAKE_POS, GameParams.FRUIT_POS)])
+# return [relu(offsets[0]), relu(offsets[1]), relu(-offsets[0]), relu(-offsets[1])]
 
 
 def one_hot_encode_tile(tile):
@@ -27,21 +45,43 @@ def flatten(arr):
     return chain.from_iterable(arr)
 
 
-def generate_network_input():
+def get_visible_tiles():
     out = []
     p = GameParams.SNAKE_POS
     r = GameParams.SNAKE_VISION_RADIUS
-    for x_offset in range(p[0] - r, p[0] + r + 1):
-        for y_offset in range(p[1] - r, p[1] + r + 1):
-            if x_offset != p[0] or y_offset != p[1]:  # dont check current tile
-                # out.append(GameParams.MAP[x_offset][y_offset] == "#")
-                out.extend(one_hot_encode_tile(GameParams.MAP[x_offset][y_offset]))
-    # out.extend(calculate_fruit_activations())
+    d = GameParams.SNAKE_DIR
+
+    # gets tiles in relation to snake. rotated to match snake's direction.
+    if d[1] != 0:
+        for y_offset in range(r * d[1], -d[1], -d[1]):
+            for x_offset in range(r * d[1], (r * -d[1]) - d[1], -d[1]):
+                x = p[0] + x_offset
+                y = p[1] + y_offset
+                out.extend(one_hot_encode_tile(GameParams.MAP[x][y]))
+    else:
+        for x_offset in range(r * d[0], -d[0], -d[0]):
+            for y_offset in range(r * d[0], (r * -d[0]) - d[0], -d[0]):
+                x = p[0] + x_offset
+                y = p[1] - y_offset
+                out.extend(one_hot_encode_tile(GameParams.MAP[x][y]))
+
+    # for x_offset in range(p[0] - r, p[0] + r + 1):
+    #     for y_offset in range(p[1] - r, p[1] + r + 1):
+    #         if x_offset != p[0] or y_offset != p[1]:  # dont check current tile
+    #             # out.append(GameParams.MAP[x_offset][y_offset] == "#")
+    #             out.extend(one_hot_encode_tile(GameParams.MAP[x_offset][y_offset]))
+    return out
+
+
+def generate_network_input():
+    out = []
+    out.extend(get_visible_tiles())
+    out.extend(calculate_fruit_activations())
     return out
 
 
 def calculate_input_size():
-    # Size of the square multiplied by the number of tiled (because of one hot), - 5 because of no center tile
-    # +4 because of fruit
-    return (((2 * GameParams.SNAKE_VISION_RADIUS) + 1) ** 2) * len(GameParams.TILE_MAP) - len(GameParams.TILE_MAP) # + 4
-    # return 4
+    v_r = GameParams.SNAKE_VISION_RADIUS
+    map_input_size = (((2 * v_r) + 1) * (v_r + 1)) * len(GameParams.TILE_MAP)
+    fruit_input_size = 1
+    return map_input_size + fruit_input_size

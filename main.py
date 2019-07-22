@@ -1,20 +1,9 @@
-import sys
 import pygame
-import time
 
-from snake import Snake
 from game_params import GameParams
 from simulation import Simulation
-
-pygame.init()
-
-
-def exit_dead():
-    # print("Bugs eaten:\t%d" % (len(SNAKE.elements) - START_LENGTH + 1))
-    # print("Score:\t\t%d" % ((len(SNAKE.elements) - START_LENGTH + 1) * DIFFICULTY))
-    time.sleep(1)
-    pygame.quit()
-    sys.exit()
+from snake import Snake
+from map_parser import *
 
 
 def generate_map():
@@ -41,6 +30,7 @@ def render_map():
 
 
 def game_loop():
+    sim = Simulation()
     render_map()
     # SNAKE = Snake(GameParams.MAP_SIZE[0]//2, GameParams.MAP_SIZE[1]//2)
     while True:
@@ -49,26 +39,25 @@ def game_loop():
                 print("Manually exited by user")
                 raise SystemExit
             # elif event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_DOWN:
-            #         SNAKE.move(0, 1)
-            #     elif event.key == pygame.K_UP:
-            #         SNAKE.move(0, -1)
+            #     if event.key == pygame.K_UP:
+            #         SNAKE.move_turn(0)
             #     elif event.key == pygame.K_LEFT:
-            #         SNAKE.move(-1, 0)
+            #         SNAKE.move_turn(-1)
             #     elif event.key == pygame.K_RIGHT:
-            #         SNAKE.move(1, 0)
-        SIMULATION.run_step()
+            #         SNAKE.move_turn(1)
+            #     get_visible_tiles()
+        sim.run_step()
         pygame.display.flip()
         pygame.time.delay(int(1000 / GameParams.FRAME_RATE))
 
 
 if __name__ == "__main__":
+    pygame.init()
     GameParams.SCREEN = pygame.display.set_mode(GameParams.RES)
     pygame.display.set_caption("SnAIke")
     tile_map = {}
     pygame.display.flip()
     GameParams.MAP = generate_map()
 
-    SIMULATION = Simulation()
     pygame.display.update()
     game_loop()
