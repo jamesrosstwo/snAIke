@@ -1,6 +1,6 @@
-from layer import Layer
-from map_parser import generate_network_input
-from math_operations import normalize_arr
+from src.genetics.layer import Layer
+from src.utilities.map_parser import generate_network_input
+from src.utilities.math_operations import normalize_arr
 
 
 class Network:

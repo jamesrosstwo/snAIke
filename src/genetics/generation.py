@@ -1,7 +1,7 @@
 import math
 
-from game_params import GameParams
-from network import Network
+from src.utilities.game_params import GameParams
+from src.genetics.network import Network
 
 
 class Generation:

@@ -1,9 +1,9 @@
 import numpy as np
 
-from game_params import GameParams
-from generation import Generation
-from map_parser import calculate_input_size
-from snake import Snake
+from src.utilities.game_params import GameParams
+from src.genetics.generation import Generation
+from src.utilities.map_parser import calculate_input_size
+from src.objects.snake import Snake
 
 
 class Simulation:

@@ -1,6 +1,6 @@
 import random
 
-from connection import Connection
+from src.genetics.connection import Connection
 
 
 class Neuron:

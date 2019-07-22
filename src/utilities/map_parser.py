@@ -1,7 +1,7 @@
 from itertools import chain
 
-from game_params import GameParams
-from math_operations import *
+from src.utilities.game_params import GameParams
+from src.utilities.math_operations import *
 
 
 def calculate_fruit_activations():  # angle to fruit from snake direction

@@ -1,5 +1,5 @@
-from fruit import Fruit
-from game_params import GameParams
+from src.objects.fruit import Fruit
+from src.utilities.game_params import GameParams
 
 
 class Snake:

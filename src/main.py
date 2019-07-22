@@ -1,7 +1,6 @@
 import pygame
-
-from map_parser import *
-from simulation import Simulation
+from src.utilities.map_parser import *
+from src.genetics.simulation import Simulation
 
 
 def generate_map():

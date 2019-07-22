@@ -1,6 +1,6 @@
 import random
 
-from game_params import GameParams
+from src.utilities.game_params import GameParams
 
 
 class Fruit:

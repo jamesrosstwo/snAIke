@@ -1,4 +1,4 @@
-from neuron import Neuron
+from src.genetics.neuron import Neuron
 
 
 class Layer:
