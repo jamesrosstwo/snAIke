@@ -15,5 +15,5 @@ pip install virtualenv
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python3 src/main.py
+python3 -m src.main
 ```
