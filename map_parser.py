@@ -1,10 +1,10 @@
 from itertools import chain
+
 from game_params import GameParams
 from math_operations import *
 
 
 def calculate_fruit_activations():  # angle to fruit from snake direction
-    origin = [0, 0]
     fruit_offset = point_offset(GameParams.SNAKE_POS, GameParams.FRUIT_POS)
     dir_offset = GameParams.SNAKE_DIR
 
@@ -21,10 +21,6 @@ def calculate_fruit_activations():  # angle to fruit from snake direction
     if left_dist < right_dist:
         angle *= -1
     return [angle]
-
-
-# offsets = normalize_arr([b - a for a, b in zip(GameParams.SNAKE_POS, GameParams.FRUIT_POS)])
-# return [relu(offsets[0]), relu(offsets[1]), relu(-offsets[0]), relu(-offsets[1])]
 
 
 def one_hot_encode_tile(tile):
@@ -65,11 +61,6 @@ def get_visible_tiles():
                 y = p[1] - y_offset
                 out.extend(one_hot_encode_tile(GameParams.MAP[x][y]))
 
-    # for x_offset in range(p[0] - r, p[0] + r + 1):
-    #     for y_offset in range(p[1] - r, p[1] + r + 1):
-    #         if x_offset != p[0] or y_offset != p[1]:  # dont check current tile
-    #             # out.append(GameParams.MAP[x_offset][y_offset] == "#")
-    #             out.extend(one_hot_encode_tile(GameParams.MAP[x_offset][y_offset]))
     return out
 
 

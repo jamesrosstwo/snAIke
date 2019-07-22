@@ -1,7 +1,7 @@
 import math
 
-from network import Network
 from game_params import GameParams
+from network import Network
 
 
 class Generation:
@@ -34,7 +34,7 @@ class Generation:
         for i in range(size):
             self.individuals.append(persistent[i])
         for i in range(size, self.num_individuals):
-            idx = math.floor((i/self.num_individuals)*size)
+            idx = math.floor((i / self.num_individuals) * size)
             if idx >= size:
                 idx = size
             self.individuals.append(Network(self, GameParams.NETWORK_TEMPLATE, persistent[idx], i))

@@ -23,6 +23,7 @@ class GameParams:
         "fruit": [255, 0, 0]
     }
     TILE_MAP = {"#": 0, "@": 1, "&": 2, ".": 3, "*": 4}
+
     # "#": wall, "@": player body, "&": player head, ".": empty space, "*": fruit
 
     @staticmethod

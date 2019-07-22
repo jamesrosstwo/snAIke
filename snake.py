@@ -1,6 +1,5 @@
 from fruit import Fruit
 from game_params import GameParams
-from map_parser import calculate_fruit_activations
 
 
 class Snake:
@@ -35,8 +34,6 @@ class Snake:
             self.die()
             return
 
-        # if [x, y] != self.dir:
-        #     self.score += 0.1
         self.dir = [x, y]
         GameParams.SNAKE_DIR = [x, y]
         self.head_pos = [x + y for x, y in zip(self.head_pos, self.dir)]
@@ -79,7 +76,6 @@ class Snake:
         elif direction == 3:
             self.move(-1, 0)
 
-    # 1 0, 0 1, -1 0, 0 -1
     def move_turn(self, turn):
         dirs = GameParams.DIRS
         for i in range(len(dirs)):
@@ -104,7 +100,6 @@ class Snake:
         offset = [self.fruit.pos[0] - self.head_pos[0], self.fruit.pos[1] - self.head_pos[1]]
 
         d = abs(offset[0]) + abs(offset[1])
-        # print(self.fruit.pos, self.head_pos, offset, d)
         return d
 
     def die(self):
@@ -113,7 +108,6 @@ class Snake:
         y = GameParams.MAP_SIZE[1] // 2
 
         self.score -= self.dist_from_fruit()
-
         self.is_dead = True
 
         for segment in self.segments:

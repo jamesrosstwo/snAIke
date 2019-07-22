@@ -1,13 +1,13 @@
 import numpy as np
 
-from generation import Generation
 from game_params import GameParams
-from snake import Snake
+from generation import Generation
 from map_parser import calculate_input_size
+from snake import Snake
 
 
 class Simulation:
-    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.3, mutation_chance=0.05):
+    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.7, mutation_chance=0.05):
         input_size = calculate_input_size()
         hidden_layer_size = input_size // 1.5
         GameParams.NETWORK_TEMPLATE = [input_size, hidden_layer_size, 3]
@@ -15,7 +15,6 @@ class Simulation:
         GameParams.MUTATION_CHANCE = mutation_chance
         self.num_generations = num_generations
         self.num_individuals = num_individuals
-        # should eventually only ever store one gen in memory in order to allow for overnight simulations, etc
         self.generation = Generation(self.num_individuals, None, 0, is_random=True)  # First generation is random
         self.prev_generation = None
         self.snake = Snake(GameParams.MAP_SIZE[0] // 2, GameParams.MAP_SIZE[1] // 2)

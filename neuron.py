@@ -25,8 +25,6 @@ class Neuron:
 
     def calculate_activation(self):
         out = 0
-        num_connections = len(self.connections)
         for connection in self.connections:
             out += connection.dest.activation * connection.weight
-        # out /= num_connections  # average activation of connections
         self.activation = out

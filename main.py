@@ -1,9 +1,7 @@
 import pygame
 
-from game_params import GameParams
-from simulation import Simulation
-from snake import Snake
 from map_parser import *
+from simulation import Simulation
 
 
 def generate_map():
@@ -32,20 +30,11 @@ def render_map():
 def game_loop():
     sim = Simulation()
     render_map()
-    # SNAKE = Snake(GameParams.MAP_SIZE[0]//2, GameParams.MAP_SIZE[1]//2)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print("Manually exited by user")
                 raise SystemExit
-            # elif event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_UP:
-            #         SNAKE.move_turn(0)
-            #     elif event.key == pygame.K_LEFT:
-            #         SNAKE.move_turn(-1)
-            #     elif event.key == pygame.K_RIGHT:
-            #         SNAKE.move_turn(1)
-            #     get_visible_tiles()
         sim.run_step()
         pygame.display.flip()
         pygame.time.delay(int(1000 / GameParams.FRAME_RATE))
@@ -58,6 +47,5 @@ if __name__ == "__main__":
     tile_map = {}
     pygame.display.flip()
     GameParams.MAP = generate_map()
-
     pygame.display.update()
     game_loop()
