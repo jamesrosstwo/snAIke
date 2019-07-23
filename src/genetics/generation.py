@@ -12,7 +12,7 @@ class Generation:
         self.num_individuals = num_individuals
         if is_random:
             for i in range(num_individuals):
-                self.individuals.append(Network(self, GameParams.NETWORK_TEMPLATE, None, i, is_random=True))
+                self.individuals.append(Network(self, GameParams.config["genetics"]["network_template"], None, i, is_random=True))
         else:
             self.generate_individuals_from_prev()
         self.current_individual = 0
@@ -26,10 +26,10 @@ class Generation:
     # could also mutate colour, that would be neat
     def select_persistent_individuals(self):
         sorted_individuals = sorted(self.individuals, key=get_fitness, reverse=True)
-        return sorted_individuals[:GameParams.PERSISTENT_INDIVIDUALS_PER_GEN]
+        return sorted_individuals[:GameParams.config["genetics"]["persistent_individuals_per_generation"]]
 
     def generate_individuals_from_prev(self):
-        size = GameParams.PERSISTENT_INDIVIDUALS_PER_GEN
+        size = GameParams.config["genetics"]["persistent_individuals_per_generation"]
         persistent = self.previous_generation.select_persistent_individuals()
         for i in range(size):
             self.individuals.append(persistent[i])
@@ -37,7 +37,7 @@ class Generation:
             idx = math.floor((i / self.num_individuals) * size)
             if idx >= size:
                 idx = size
-            self.individuals.append(Network(self, GameParams.NETWORK_TEMPLATE, persistent[idx], i))
+            self.individuals.append(Network(self, GameParams.config["genetics"]["network_template"], persistent[idx], i))
 
 
 def get_fitness(individual):

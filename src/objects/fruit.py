@@ -10,34 +10,34 @@ class Fruit:
             self.randomize_pos()
         else:
             self.pos = [x, y]
-        GameParams.MAP[self.pos[0]][self.pos[1]] = "*"
+        GameParams.map[self.pos[0]][self.pos[1]] = "*"
         self.draw()
 
     def randomize_pos(self):
-        w = GameParams.MAP_SIZE[0]
-        h = GameParams.MAP_SIZE[1]
+        w = GameParams.map_size[0]
+        h = GameParams.map_size[1]
         _x = random.randrange(1, w - 1)
         _y = random.randrange(1, h - 1)
-        while GameParams.MAP[_x][_y] != ".":
+        while GameParams.map[_x][_y] != ".":
             _x = random.randrange(1, w - 1)
             _y = random.randrange(1, h - 1)
         self.pos = [_x, _y]
 
     def draw(self):
-        b = GameParams.BLOCK_SIZE
+        b = GameParams.config["block_size"]
         self.screen.fill(
-            GameParams.COLS["fruit"],
+            GameParams.config["colours"]["fruit"],
             (self.pos[0] * b, self.pos[1] * b, b, b)
         )
-        GameParams.FRUIT_POS = self.pos
+        GameParams.config["fruit"]["position"] = self.pos
 
     def respawn(self):
-        b = GameParams.BLOCK_SIZE
+        b = GameParams.config["block_size"]
         self.screen.fill(
-            GameParams.COLS["bg"],
+            GameParams.config["colours"]["bg"],
             (self.pos[0] * b, self.pos[1] * b, b, b)
         )
-        GameParams.MAP[self.pos[0]][self.pos[1]] = "."
+        GameParams.map[self.pos[0]][self.pos[1]] = "."
         self.randomize_pos()
-        GameParams.MAP[self.pos[0]][self.pos[1]] = "*"
+        GameParams.map[self.pos[0]][self.pos[1]] = "*"
         self.draw()

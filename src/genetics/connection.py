@@ -13,8 +13,8 @@ class Connection:
             self.weight = random.uniform(0, 1)
 
     def calculate_weight_from_previous(self, prev_weight):
-        m = GameParams.MUTATION_RATE
-        c = GameParams.MUTATION_CHANCE
+        m = GameParams.config["genetics"]["mutation_rate"]
+        c = GameParams.config["genetics"]["mutation_chance"]
         self.weight = prev_weight
         if random.uniform(0, 1) < c:
             self.weight += random.uniform(-m, m)

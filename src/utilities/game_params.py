@@ -1,32 +1,30 @@
-class GameParams:
-    FRAME_RATE = 1000
-    RES = (370, 370)
-    BLOCK_SIZE = 10
-    NETWORK_TEMPLATE = []
-    MUTATION_RATE = 0
-    MUTATION_CHANCE = 0
-    PERSISTENT_INDIVIDUALS_PER_GEN = 4
-    SCREEN = None
-    SNAKE_VISION_RADIUS = 1
-    SNAKE_POS = [0, 0]
-    SNAKE_DIR = []
-    SNAKE_DIR_IDX = 0
-    DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]]
-    FRUIT_POS = [0, 0]
-    MAP_SIZE = [RES[0] // BLOCK_SIZE, RES[1] // BLOCK_SIZE]
-    MAP = []
-    COLS = {
-        "wall": [66, 135, 245],
-        "green": [0, 255, 0],
-        "snake": [255, 255, 255],
-        "bg": [0, 0, 0],
-        "fruit": [255, 0, 0]
-    }
-    TILE_MAP = {"#": 0, "@": 1, "&": 2, ".": 3, "*": 4}
+import json
 
+class GameParams:
+    config = None
+    screen = None
+    map_size = [0, 0]
+    map = []
     # "#": wall, "@": player body, "&": player head, ".": empty space, "*": fruit
 
     @staticmethod
     def print_map():
-        for i in GameParams.MAP:
+        for i in GameParams.map:
             print(i)
+
+    @staticmethod
+    def load_config_from_json():
+        json_path = "settings.json"
+        with open(json_path, 'r') as f:
+            return json.load(f)
+
+    @staticmethod
+    def calculate_map_size():
+        r = GameParams.config["resolution"]
+        b = GameParams.config["block_size"]
+        return [r[0] // b, r[1] // b]
+
+    @staticmethod
+    def init_settings():
+        GameParams.config = GameParams.load_config_from_json()
+        GameParams.map_size = GameParams.calculate_map_size()

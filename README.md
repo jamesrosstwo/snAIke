@@ -15,5 +15,5 @@ pip install virtualenv
 virtualenv venv
 source venv/Scripts/activate
 pip install -r requirements.txt
-python3 snake.py
+python3 -m src.main
 ```

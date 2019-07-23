@@ -10,17 +10,17 @@ class Snake:
         self.head_pos = [x, y]
         self.last_dist = 0
         self.dist = 0
-        GameParams.SNAKE_POS = self.head_pos
+        GameParams.config["snake"]["position"] = self.head_pos
         self.dir = [1, 0]
-        GameParams.SNAKE_DIR = [1, 0]
+        GameParams.config["snake"]["direction"] = [1, 0]
 
         self.starting_length = 8
         self.length = self.starting_length
         self.segments = []
         for i in range(self.length):
             self.segments.append([x - i, y])
-        GameParams.MAP[self.head_pos[0]][self.head_pos[1]] = "&"
-        self.fruit = Fruit(GameParams.SCREEN)
+        GameParams.map[self.head_pos[0]][self.head_pos[1]] = "&"
+        self.fruit = Fruit(GameParams.screen)
         self.draw()
         self.score = 0
 
@@ -28,14 +28,14 @@ class Snake:
 
     def move(self, x, y):
         self.life -= 1
-        b = GameParams.BLOCK_SIZE
+        b = GameParams.config["block_size"]
 
         if self.life <= 0:
             self.die()
             return
 
         self.dir = [x, y]
-        GameParams.SNAKE_DIR = [x, y]
+        GameParams.config["snake"]["direction"] = [x, y]
         self.head_pos = [x + y for x, y in zip(self.head_pos, self.dir)]
 
         current_block = self.check_pos(self.head_pos)
@@ -47,14 +47,14 @@ class Snake:
             return
         else:  # increase length when fruit is eaten
             last = self.segments.pop()
-            GameParams.SCREEN.fill(GameParams.COLS["bg"], (last[0] * b, last[1] * b, b, b))
-            GameParams.MAP[last[0]][last[1]] = "."
+            GameParams.screen.fill(GameParams.config["colours"]["bg"], (last[0] * b, last[1] * b, b, b))
+            GameParams.map[last[0]][last[1]] = "."
 
         self.segments.insert(0, self.head_pos)
-        GameParams.SCREEN.fill(GameParams.COLS["snake"], (self.head_pos[0] * b, self.head_pos[1] * b, b, b))
-        GameParams.MAP[self.segments[1][0]][self.segments[1][1]] = "@"
-        GameParams.MAP[self.head_pos[0]][self.head_pos[1]] = "&"
-        GameParams.SNAKE_POS = self.head_pos
+        GameParams.screen.fill(GameParams.config["colours"]["snake"], (self.head_pos[0] * b, self.head_pos[1] * b, b, b))
+        GameParams.map[self.segments[1][0]][self.segments[1][1]] = "@"
+        GameParams.map[self.head_pos[0]][self.head_pos[1]] = "&"
+        GameParams.config["snake"]["position"] = self.head_pos
         self.last_dist = self.dist
         self.dist = self.dist_from_fruit()
         self.score += 1
@@ -65,6 +65,7 @@ class Snake:
             self.length += 1
             self.score += 22
             self.life += 50
+        self.draw()
 
     def move_dir(self, direction):
         if direction == 0:
@@ -77,24 +78,24 @@ class Snake:
             self.move(-1, 0)
 
     def move_turn(self, turn):
-        dirs = GameParams.DIRS
+        dirs = GameParams.config["directions"]
         for i in range(len(dirs)):
             if self.dir == dirs[i]:
-                GameParams.SNAKE_DIR_IDX = i
+                GameParams.config["snake"]["direction_index"] = i
                 break
         if turn == -1:  # left
-            GameParams.SNAKE_DIR_IDX = (GameParams.SNAKE_DIR_IDX - 1) % 4
+            GameParams.config["snake"]["direction_index"] = (GameParams.config["snake"]["direction_index"]  - 1) % 4
         elif turn == 1:  # right
-            GameParams.SNAKE_DIR_IDX = (GameParams.SNAKE_DIR_IDX + 1) % 4
-        self.move(dirs[GameParams.SNAKE_DIR_IDX][0], dirs[GameParams.SNAKE_DIR_IDX][1])
+            GameParams.config["snake"]["direction_index"] = (GameParams.config["snake"]["direction_index"] + 1) % 4
+        self.move(dirs[GameParams.config["snake"]["direction_index"]][0], dirs[GameParams.config["snake"]["direction_index"]][1])
 
     def draw(self):
-        b = GameParams.BLOCK_SIZE
+        b = GameParams.config["block_size"]
         for segment in self.segments:
-            GameParams.SCREEN.fill(GameParams.COLS["snake"], (segment[0] * b, segment[1] * b, b, b))
+            GameParams.screen.fill(GameParams.config["colours"]["snake"], (segment[0] * b, segment[1] * b, b, b))
 
     def check_pos(self, new_pos):
-        return GameParams.MAP[new_pos[0]][new_pos[1]]
+        return GameParams.map[new_pos[0]][new_pos[1]]
 
     def dist_from_fruit(self):
         offset = [self.fruit.pos[0] - self.head_pos[0], self.fruit.pos[1] - self.head_pos[1]]
@@ -103,23 +104,23 @@ class Snake:
         return d
 
     def die(self):
-        b = GameParams.BLOCK_SIZE
-        x = GameParams.MAP_SIZE[0] // 2
-        y = GameParams.MAP_SIZE[1] // 2
+        b = GameParams.config["block_size"]
+        x = GameParams.map_size[0] // 2
+        y = GameParams.map_size[1] // 2
 
         self.score -= self.dist_from_fruit()
         self.is_dead = True
 
         for segment in self.segments:
-            GameParams.MAP[segment[0]][segment[1]] = "."
-            GameParams.SCREEN.fill(GameParams.COLS["bg"], (segment[0] * b, segment[1] * b, b, b))
+            GameParams.map[segment[0]][segment[1]] = "."
+            GameParams.screen.fill(GameParams.config["colours"]["bg"], (segment[0] * b, segment[1] * b, b, b))
         self.segments = []
 
         self.length = self.starting_length
         self.head_pos = [x, y]
         for i in range(self.length):
             self.segments.append([x - i, y])
-        GameParams.MAP[x][y] = "&"
+        GameParams.map[x][y] = "&"
         self.draw()
         self.dir = [1, 0]
-        GameParams.SNAKE_DIR = [1, 0]
+        GameParams.config["snake"]["direction"] = [1, 0]

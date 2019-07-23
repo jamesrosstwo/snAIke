@@ -7,17 +7,15 @@ from src.objects.snake import Snake
 
 
 class Simulation:
-    def __init__(self, num_generations=500, num_individuals=20, mutation_rate=0.7, mutation_chance=0.05):
+    def __init__(self):
         input_size = calculate_input_size()
         hidden_layer_size = input_size // 1.5
-        GameParams.NETWORK_TEMPLATE = [input_size, hidden_layer_size, 3]
-        GameParams.MUTATION_RATE = mutation_rate
-        GameParams.MUTATION_CHANCE = mutation_chance
-        self.num_generations = num_generations
-        self.num_individuals = num_individuals
+        GameParams.config["genetics"]["network_template"] = [input_size, hidden_layer_size, 3]
+        self.num_generations = GameParams.config["genetics"]["num_generations"]
+        self.num_individuals = GameParams.config["genetics"]["individuals_per_generation"]
         self.generation = Generation(self.num_individuals, None, 0, is_random=True)  # First generation is random
         self.prev_generation = None
-        self.snake = Snake(GameParams.MAP_SIZE[0] // 2, GameParams.MAP_SIZE[1] // 2)
+        self.snake = Snake(GameParams.map_size[0] // 2, GameParams.map_size[1] // 2)
 
     def get_current_individual(self):
         gen = self.generation

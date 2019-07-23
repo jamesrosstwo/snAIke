@@ -5,8 +5,8 @@ from src.utilities.math_operations import *
 
 
 def calculate_fruit_activations():  # angle to fruit from snake direction
-    fruit_offset = point_offset(GameParams.SNAKE_POS, GameParams.FRUIT_POS)
-    dir_offset = GameParams.SNAKE_DIR
+    fruit_offset = point_offset(GameParams.config["snake"]["position"], GameParams.config["fruit"]["position"])
+    dir_offset = GameParams.config["snake"]["direction"]
 
     a = magnitude(dir_offset)
     b = magnitude(fruit_offset)
@@ -15,17 +15,17 @@ def calculate_fruit_activations():  # angle to fruit from snake direction
         return [0]
     angle = math.acos((a * a + b * b - c * c) / (2 * a * b))
 
-    d = GameParams.SNAKE_DIR_IDX
-    left_dist = square_magnitude(point_offset(GameParams.DIRS[(d - 1) % 4], fruit_offset))
-    right_dist = square_magnitude(point_offset(GameParams.DIRS[(d + 1) % 4], fruit_offset))
+    d = GameParams.config["snake"]["direction_index"]
+    left_dist = square_magnitude(point_offset(GameParams.config["directions"][(d - 1) % 4], fruit_offset))
+    right_dist = square_magnitude(point_offset(GameParams.config["directions"][(d + 1) % 4], fruit_offset))
     if left_dist < right_dist:
         angle *= -1
     return [angle]
 
 
 def one_hot_encode_tile(tile):
-    out = [0] * len(GameParams.TILE_MAP)
-    out[GameParams.TILE_MAP[tile]] = 1
+    out = [0] * len(GameParams.config["tile_map"])
+    out[GameParams.config["tile_map"][tile]] = 1
     return out
 
 
@@ -43,9 +43,10 @@ def flatten(arr):
 
 def get_visible_tiles():
     out = []
-    p = GameParams.SNAKE_POS
-    r = GameParams.SNAKE_VISION_RADIUS
-    d = GameParams.SNAKE_DIR
+    s = GameParams.config["snake"]
+    p = s["position"]
+    r = s["vision_radius"]
+    d = s["direction"]
 
     # gets tiles in relation to snake. rotated to match snake's direction.
     if d[1] != 0:
@@ -53,13 +54,13 @@ def get_visible_tiles():
             for x_offset in range(r * d[1], (r * -d[1]) - d[1], -d[1]):
                 x = p[0] + x_offset
                 y = p[1] + y_offset
-                out.extend(one_hot_encode_tile(GameParams.MAP[x][y]))
+                out.extend(one_hot_encode_tile(GameParams.map[x][y]))
     else:
         for x_offset in range(r * d[0], -d[0], -d[0]):
             for y_offset in range(r * d[0], (r * -d[0]) - d[0], -d[0]):
                 x = p[0] + x_offset
                 y = p[1] - y_offset
-                out.extend(one_hot_encode_tile(GameParams.MAP[x][y]))
+                out.extend(one_hot_encode_tile(GameParams.map[x][y]))
 
     return out
 
@@ -72,7 +73,7 @@ def generate_network_input():
 
 
 def calculate_input_size():
-    v_r = GameParams.SNAKE_VISION_RADIUS
-    map_input_size = (((2 * v_r) + 1) * (v_r + 1)) * len(GameParams.TILE_MAP)
+    v_r = GameParams.config["snake"]["vision_radius"]
+    map_input_size = (((2 * v_r) + 1) * (v_r + 1)) * len(GameParams.config["tile_map"])
     fruit_input_size = 1
     return map_input_size + fruit_input_size

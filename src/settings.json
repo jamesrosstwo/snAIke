@@ -1,0 +1,42 @@
+{
+  "framerate": 1000,
+  "resolution": [370, 370],
+  "block_size": 10,
+  "directions": [
+    [1, 0],
+    [0, 1],
+    [-1, 0],
+    [0, -1]
+  ],
+  "snake": {
+    "vision_radius": 2,
+    "position": [0, 0],
+    "direction": [1, 0],
+    "direction_index": 0
+  },
+  "fruit": {
+    "position": [0, 0]
+  },
+  "genetics": {
+    "mutation_rate": 0.7,
+    "mutation_chance": 0.05,
+    "num_generations": 500,
+    "individuals_per_generation": 20,
+    "persistent_individuals_per_generation": 4,
+    "network_template": []
+  },
+  "tile_map": {
+    "#": 0,
+    "@": 1,
+    "&": 2,
+    ".": 3,
+    "*": 4
+  },
+  "colours": {
+    "wall": [66, 135, 245],
+    "green": [0, 255, 0],
+    "snake": [255, 255, 255],
+    "bg": [0, 0, 0],
+    "fruit": [255, 0, 0]
+  }
+}
