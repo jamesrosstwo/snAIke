@@ -13,7 +13,7 @@ A demonstration of a genetic algorithm where the computer learns to play snake.
 ```
 pip install virtualenv
 virtualenv venv
-source venv/Scripts/activate
+source venv/bin/activate
 pip install -r requirements.txt
 python3 -m src.main
 ```
