@@ -12,7 +12,9 @@
     "vision_radius": 2,
     "position": [0, 0],
     "direction": [1, 0],
-    "direction_index": 0
+    "direction_index": 0,
+    "starting_length": 4,
+    "lifespan": 50
   },
   "fruit": {
     "position": [0, 0]

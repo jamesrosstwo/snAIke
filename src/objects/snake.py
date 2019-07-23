@@ -3,18 +3,17 @@ from src.utilities.game_params import GameParams
 
 
 class Snake:
-    def __init__(self, x, y, lifespan=50):
-        self.lifespan = lifespan
+    def __init__(self, x, y):
+        self.lifespan = GameParams.config["snake"]["lifespan"]
         self.life = self.lifespan
         self.is_dead = False
         self.head_pos = [x, y]
         self.last_dist = 0
         self.dist = 0
         GameParams.config["snake"]["position"] = self.head_pos
-        self.dir = [1, 0]
-        GameParams.config["snake"]["direction"] = [1, 0]
+        self.dir = GameParams.config["snake"]["direction"]
 
-        self.starting_length = 8
+        self.starting_length = GameParams.config["snake"]["starting_length"]
         self.length = self.starting_length
         self.segments = []
         for i in range(self.length):
